@@ -19,7 +19,7 @@
 
 
 
-<title>我的第一篇博客日记 | Y</title>
+<title>搭建hexo博客,并部署github page | Y</title>
 
 
 
@@ -158,7 +158,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        我的第一篇博客日记
+        搭建hexo博客,并部署github page
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -225,35 +225,33 @@
 
 <!-- toc -->
 
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
 <section class="px-6 max-w-prose mx-auto md:px-0">
   <!-- header -->
   <header class="overflow-hidden pt-6 pb-6 md:pt-12">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        我的第一篇博客日记
+        搭建hexo博客,并部署github page
       </h1>
       <div>
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-08-19</time>
+            <time>2024-08-20</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>1 min</span>
+            <span>2 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>117 words</span>
+            <span>533 words</span>
           </span>
-          
-            <span class="text-gray-400">·</span>
-            <span class="flex items-center gap-1">
-              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
-              <a class="article-category-link" href="/categories/Diary/">Diary</a>
-            </span>
           
         </section>
       </div>
@@ -261,27 +259,158 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <p>今天啥也没干，下午和晚上都在打游戏，一下输一下赢，陈总说总共上了三颗⭐，某种程度上也算是有收获吧…😮‍💨</p>
-<p>这几天就准备去云南玩了，但是攻略好像还没做好，只做了大理的攻略😭</p>
-<p>明天一定要把云南旅游攻略做好，还有丽江和香格里拉的没做！💪</p>
-<p>对了，今天我正式开通博客记录生活和技术了😆</p>
+    <h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><p>![System Info](&#x2F;images&#x2F;截图 2024-08-19 23-07-50.png)</p>
+<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -Sy nodejs npm git</span><br><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<h2 id="新建站点"><a href="#新建站点" class="headerlink" title="新建站点"></a>新建站点</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h2 id="设置主题"><a href="#设置主题" class="headerlink" title="设置主题"></a>设置主题</h2><h3 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/xbmlz/hexo-theme-maple.git themes/maple</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置tags和categories"><a href="#配置tags和categories" class="headerlink" title="配置tags和categories"></a>配置tags和categories</h3><p>修改以下layout：<br><code>themes/maple/layout/tag.ejs</code> -&gt; <code>themes/maple/layout/tags.ejs</code><br><code>themes/maple/layout/category.ejs</code> -&gt; <code>themes/maple/layout/categories.ejs</code></p>
+<p>生成tags和categories的index</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>在index的Front-matter中增加</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="attr">layout:</span> <span class="string">&quot;tags&quot;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="attr">layout:</span> <span class="string">&quot;categories&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>修改thme的配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">nav:</span></span><br><span class="line">  <span class="attr">Posts:</span> <span class="string">/archives</span></span><br><span class="line">  <span class="attr">Categories:</span> <span class="string">/category</span> <span class="comment"># -&gt; categories</span></span><br><span class="line">  <span class="attr">Tags:</span> <span class="string">/tag</span> <span class="comment"># -&gt; tags</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="部署到github-book"><a href="#部署到github-book" class="headerlink" title="部署到github book"></a>部署到github book</h2><ol>
+<li><p>在github中创建一个仓库，仓库名为<code>&#123;你的用户名&#125;.github.io</code></p>
+</li>
+<li><p>在<code>_config.yml</code>中添加如下配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://&#123;你的令牌&#125;@github.com/&#123;用户名&#125;/&#123;用户名&#125;.github.io</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>部署命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo d -g</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>之后打开网站<code>&#123;用户名&#125;.github.io</code>就能看见博客了</p>
+<blockquote>
+<p>github现在不支持使用用户名和密码来push,因此需要设置令牌</p>
+</blockquote>
+<h2 id="hexo常见命令"><a href="#hexo常见命令" class="headerlink" title="hexo常见命令"></a>hexo常见命令</h2><p>新建文章</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;Post Title&quot;</span> <span class="comment"># 默认选择post模板</span></span><br></pre></td></tr></table></figure>
+
+<p>本地服务器预览</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>生成静态文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>清理</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+
+<p>生成并部署</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+
+<p>列出草稿、标签、分类等</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo list drafts    <span class="comment"># 列出所有草稿</span></span><br><span class="line">hexo list tags      <span class="comment"># 列出所有标签</span></span><br><span class="line">hexo list categories <span class="comment"># 列出所有分类</span></span><br></pre></td></tr></table></figure>
+
+<p>以下是 Hexo 常用命令及其简写的对照表：</p>
+<table>
+<thead>
+<tr>
+<th>完整命令</th>
+<th>简写</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hexo init</code></td>
+<td>（无简写）</td>
+<td>初始化一个新的 Hexo 项目</td>
+</tr>
+<tr>
+<td><code>hexo new</code></td>
+<td>（无简写）</td>
+<td>创建新文章</td>
+</tr>
+<tr>
+<td><code>hexo generate</code></td>
+<td><code>hexo g</code></td>
+<td>生成静态文件</td>
+</tr>
+<tr>
+<td><code>hexo server</code></td>
+<td><code>hexo s</code></td>
+<td>启动本地服务器以预览站点</td>
+</tr>
+<tr>
+<td><code>hexo clean</code></td>
+<td>（无简写）</td>
+<td>清理生成的文件和缓存</td>
+</tr>
+<tr>
+<td><code>hexo deploy</code></td>
+<td><code>hexo d</code></td>
+<td>部署站点</td>
+</tr>
+<tr>
+<td><code>hexo generate --deploy</code></td>
+<td><code>hexo g -d</code></td>
+<td>生成静态文件并部署站点</td>
+</tr>
+<tr>
+<td><code>hexo publish</code></td>
+<td>（无简写）</td>
+<td>发布草稿</td>
+</tr>
+<tr>
+<td><code>hexo list drafts</code></td>
+<td>（无简写）</td>
+<td>列出所有草稿</td>
+</tr>
+<tr>
+<td><code>hexo list tags</code></td>
+<td>（无简写）</td>
+<td>列出所有标签</td>
+</tr>
+<tr>
+<td><code>hexo list categories</code></td>
+<td>（无简写）</td>
+<td>列出所有分类</td>
+</tr>
+<tr>
+<td><code>hexo help</code></td>
+<td><code>hexo h</code></td>
+<td>显示帮助信息</td>
+</tr>
+<tr>
+<td><code>hexo version</code></td>
+<td><code>hexo -v</code></td>
+<td>显示 Hexo 版本信息</td>
+</tr>
+</tbody></table>
 
   </article>
   <!-- tag -->
   <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/hexo/">hexo</a>
+        </span>
+      
     
   </div>
   <!-- prev and next -->
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2024/08/19/%E5%AE%89%E8%A3%85Archlinux%E5%85%A8%E8%AE%B0%E5%BD%95/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+        <a href="/2024/08/20/%E6%BB%A1%E7%9B%98%E7%9A%86%E8%BE%93/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
           <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          安装Archlinux全记录
+          满盘皆输
         </a>
       
     </div>
     <div>
+      
+        <a href="/2024/08/19/%E5%AE%89%E8%A3%85Archlinux%E5%85%A8%E8%AE%B0%E5%BD%95/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          安装Archlinux全记录
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
       
     </div>
   </div>
