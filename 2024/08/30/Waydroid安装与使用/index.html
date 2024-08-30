@@ -19,7 +19,7 @@
 
 
 
-<title>云南之旅 | Y</title>
+<title>Waydroid安装与使用 | Y</title>
 
 
 
@@ -158,7 +158,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        云南之旅
+        Waydroid安装与使用
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -234,7 +234,7 @@
   <header class="overflow-hidden pt-6 pb-6 md:pt-12">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        云南之旅
+        Waydroid安装与使用
       </h1>
       <div>
         <section class="flex items-center gap-3 text-sm">
@@ -245,18 +245,18 @@
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>2 min</span>
+            <span>1 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>805 words</span>
+            <span>389 words</span>
           </span>
           
             <span class="text-gray-400">·</span>
             <span class="flex items-center gap-1">
               <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
-              <a class="article-category-link" href="/categories/Diary/">Diary</a>
+              <a class="article-category-link" href="/categories/Software/">Software</a>
             </span>
           
         </section>
@@ -265,70 +265,60 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <h2 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h2><pre class="mermaid">flowchart LR
-    广州南站 -- 高铁 4H ---> 大理站</pre>
+    <h2 id="安装linux-zen内核"><a href="#安装linux-zen内核" class="headerlink" title="安装linux-zen内核"></a>安装linux-zen内核</h2><p>Arch Linux内核运行Waydroid需要重新构建安装，也可使用Linux-Zen内核，可直接使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S linux-zen</span><br><span class="line"><span class="built_in">sudo</span> grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
 
-<pre class="mermaid">flowchart LR
-    下关 -- 8路公交 1H ---> 大理东门</pre>
+<p>Waydroid要求Linux内核支持binder核心模组，但Arch Linux的Linux未开启该选项，需要从AUR安装binder_linux-dkms补充</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yay -S binder_linux-dkms</span><br><span class="line"><span class="built_in">sudo</span> modprobe binder-linux</span><br><span class="line">su</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;binder-linux&quot;</span> &gt;&gt; /etc/modules-load.d/binder.conf</span><br></pre></td></tr></table></figure>
 
-<p>到大理古城东门，找到客栈放行李后，在<code>菌国府</code>中吃了一顿野生菌子火锅，之后回去美美睡一觉💤️</p>
-<h2 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h2><p>租电动车，绕“洱海”环游</p>
-<pre class="mermaid">flowchart TB
-    A[大理古城] --> 龙龛码头 --> 廊桥 --> 喜洲古镇 --> 周城 --> A</pre>
+<p>通过 aur 安装 Waydroid 并启用服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yay -S waydroid waydroid-image</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now waydroid-container.service</span><br></pre></td></tr></table></figure>
 
-<p>这些景区都是环绕洱海的，还有其他景区，像S弯，其实大同小异，去一个地方就好了✊</p>
-<p>最后在周城做了一次扎染，88￥包裙子和扎染👍</p>
-<p>中午在喜洲古镇吃了一顿非常难吃的<code>私房菜</code>💢！不过晚上回去古城吃了一顿<code>傣族手抓饭</code>😁</p>
-<h2 id="Day-3"><a href="#Day-3" class="headerlink" title="Day 3"></a>Day 3</h2><pre class="mermaid">flowchart LR
-    大理古城苍山公交站 -- 滴滴站点巴士 3H ---> 丽江古城南门</pre>
+<h4 id="安装谷歌服务"><a href="#安装谷歌服务" class="headerlink" title="安装谷歌服务"></a>安装谷歌服务</h4><ol>
+<li><p>下载&amp;执行安装脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">sudo</span> pacman -S lzip</span><br><span class="line"> git <span class="built_in">clone</span> https://github.com/casualsnek/waydroid_script</span><br><span class="line"> <span class="built_in">cd</span> waydroid_script --depth 1</span><br><span class="line"> <span class="comment"># 创建虚拟环境venv</span></span><br><span class="line"> python3 -m venv venv</span><br><span class="line"> <span class="comment"># 虚拟环境进行下载运行所需模块</span></span><br><span class="line"> venv/bin/pip install -r requirements.txt</span><br><span class="line"> <span class="built_in">sudo</span> venv/bin/python3 main.py</span><br><span class="line"><span class="comment"># Android 11 =&gt; Install =&gt; gapps, libndk, magisk</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取ID。Waydroid第一次启动时候无法登陆谷歌账号（提示无法获得Google保护机制认证）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ～/waydroid_script</span><br><span class="line"><span class="comment"># get Android device ID</span></span><br><span class="line"><span class="built_in">sudo</span> venv/bin/python3 main.py certified</span><br><span class="line"><span class="comment"># 生成一串ID序号</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注册Android device ID。进入 <a target="_blank" rel="noopener" href="https://www.google.com/android/uncertified">https://www.google.com/android/uncertified</a> ，登录Google账号输入获取到的ID进行注册。大约半小时后Waydroid可使用Google服务。</p>
+</li>
+<li><p>安装ARM转译器–libhoudini。由于市场上大多数APP为手机ARM架构定制，电脑为X86架构，必须安装ARM转译器才可以正常使用ARM架构的APP.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ～/waydroid_script</span><br><span class="line"><span class="built_in">sudo</span> venv/bin/python3 install libhoudini</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart waydroid-container</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>全屏启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">waydroid show-full-ui</span><br></pre></td></tr></table></figure>
 
-<p>晚上逛逛古城南门和忠义市场，古城南门非常幽静，忠义市场比较热闹</p>
-<p>最后记得晚上8点准时抢玉龙雪山的大索道票🎟，不然明天去不了玉龙雪山山顶</p>
-<h2 id="Day-4"><a href="#Day-4" class="headerlink" title="Day 4"></a>Day 4</h2><pre class="mermaid">flowchart LR
-    忠义市场 -- 101公交 40M ---> 东巴谷 -- 拉客司机 10M ---> 玉龙雪山游客中心</pre>
+<p>尝试下载外部apk并使用命令安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">waydroid app install /path/to/apk</span><br></pre></td></tr></table></figure>
 
-<p>看天气情况，如果多云⛅或者下雨🌧就没必要在东巴谷下车去看日照金山了，因为很难出现🥺</p>
-<pre class="mermaid">flowchart LR
-    游客中心 --> 蓝月谷 --> 3号停车场 --> 冰川公园索道</pre>
-
-<p>玉龙雪山有四个景区：冰川公园、蓝月谷、云衫坪和牦牛坪，除了蓝月谷都要收费</p>
-<p>这次只去了冰川公园和蓝月谷，也玩了一整天…</p>
-<h2 id="Day-5"><a href="#Day-5" class="headerlink" title="Day 5"></a>Day 5</h2><p>在丽江古城逗留了一天，一方面是因为昨天爬雪山有高反而且很累，稍作休息，另一方面可以留下一天时间去拍写真，晚上再总体逛逛古城</p>
-<p>城北最热闹，然后从北往南会越来越少人，城内都是木房，路边有数不尽的鲜花和多肉，真是流连忘返～</p>
-<h2 id="Day-6"><a href="#Day-6" class="headerlink" title="Day 6"></a>Day 6</h2><pre class="mermaid">flowchart LR
-    忠义市场 -- 16路或4路公交 40M ---> 丽江站 -- 高铁 1H ---> 香格里拉站</pre>
-
-<p>这里做了一个错误决定，其实应该坐站点巴士，丽江的公交来的真慢！！</p>
-<p>下了香格里拉站就搞了一顿正宗的<code>耗牛肉火锅</code>🍲，还有一些当地人吃的青稞🫓和酥油🍵（甜的）</p>
-<h2 id="Day-7"><a href="#Day-7" class="headerlink" title="Day 7"></a>Day 7</h2><p>早上去搞一套藏族妆造，租一辆电动车</p>
-<p>先导航“环湖路”，这里一路上可以看见大草原、湿地和湖水，层层递进</p>
-<p>然后再导航“高山植物园”，这里可以全揽整个纳帕海全貌</p>
-<p>这次起床太晚，2点才出发，因此赶不及去松赞林寺了～只能安排明天</p>
-<p>晚上呢，去大佛寺转经筒（晚上最好看），最后订好明天去普达措的票🎟</p>
-<h2 id="Day-8"><a href="#Day-8" class="headerlink" title="Day 8"></a>Day 8</h2><p>普达措不用自己做攻略，路上的大巴车有导游讲解，会反复提及游玩路线和方式</p>
-<p>下午抽空去松赞林寺🛕，比较小，很快就能逛完</p>
-<p>总之早上去普达措，下午四五点到松赞林寺</p>
-<p>晚上购买回程🎟（香格里拉-&gt;广州南，联程票）</p>
+<p>开启多窗口模式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">waydroid prop <span class="built_in">set</span> persist.waydroid.multi_windows <span class="literal">true</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl restart waydroid-container</span><br></pre></td></tr></table></figure>
 
   </article>
   <!-- tag -->
   <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/linux/">linux</a>
+        </span>
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/arch/">arch</a>
+        </span>
+      
     
   </div>
   <!-- prev and next -->
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2024/08/30/Waydroid%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          Waydroid安装与使用
-        </a>
-      
     </div>
     <div>
       
-        <a href="/2024/08/21/%E4%BA%91%E5%8D%97-%E5%87%BA%E5%8F%91/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          云南,出发
+        <a href="/2024/08/30/%E4%BA%91%E5%8D%97%E4%B9%8B%E6%97%85/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          云南之旅
           <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
         </a>
       
