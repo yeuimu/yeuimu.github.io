@@ -21,7 +21,7 @@
   <meta name="keywords" content="技术 生活">
 
 
-<title>Waydroid安装与使用 | 叶</title>
+<title>记hexo主题maple的改造 | 叶</title>
 
 
 
@@ -160,7 +160,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        Waydroid安装与使用
+        记hexo主题maple的改造
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -236,13 +236,13 @@
   <header class="pt-6 pb-6">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        Waydroid安装与使用
+        记hexo主题maple的改造
       </h1>
       <div>
         <section class="flex items-center gap-4 text-sm flex-wrap">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-08-30</time>
+            <time>2024-08-31</time>
           </span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
@@ -250,12 +250,12 @@
           </span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>389 words</span>
+            <span>410 words</span>
           </span>
           
             <span class="flex items-center gap-1">
               <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
-              <a class="article-category-link" href="/categories/Software/">Software</a>
+              <a class="article-category-link" href="/categories/misc/">misc</a>
             </span>
           
         </section>
@@ -264,35 +264,23 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <h2 id="安装linux-zen内核"><a href="#安装linux-zen内核" class="headerlink" title="安装linux-zen内核"></a>安装linux-zen内核</h2><p>Arch Linux内核运行Waydroid需要重新构建安装，也可使用Linux-Zen内核，可直接使用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S linux-zen</span><br><span class="line"><span class="built_in">sudo</span> grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
-
-<p>Waydroid要求Linux内核支持binder核心模组，但Arch Linux的Linux未开启该选项，需要从AUR安装binder_linux-dkms补充</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yay -S binder_linux-dkms</span><br><span class="line"><span class="built_in">sudo</span> modprobe binder-linux</span><br><span class="line">su</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;binder-linux&quot;</span> &gt;&gt; /etc/modules-load.d/binder.conf</span><br></pre></td></tr></table></figure>
-
-<p>通过 aur 安装 Waydroid 并启用服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yay -S waydroid waydroid-image</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now waydroid-container.service</span><br></pre></td></tr></table></figure>
-
-<h4 id="安装谷歌服务"><a href="#安装谷歌服务" class="headerlink" title="安装谷歌服务"></a>安装谷歌服务</h4><ol>
-<li><p>下载&amp;执行安装脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">sudo</span> pacman -S lzip</span><br><span class="line"> git <span class="built_in">clone</span> https://github.com/casualsnek/waydroid_script</span><br><span class="line"> <span class="built_in">cd</span> waydroid_script --depth 1</span><br><span class="line"> <span class="comment"># 创建虚拟环境venv</span></span><br><span class="line"> python3 -m venv venv</span><br><span class="line"> <span class="comment"># 虚拟环境进行下载运行所需模块</span></span><br><span class="line"> venv/bin/pip install -r requirements.txt</span><br><span class="line"> <span class="built_in">sudo</span> venv/bin/python3 main.py</span><br><span class="line"><span class="comment"># Android 11 =&gt; Install =&gt; gapps, libndk, magisk</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>获取ID。Waydroid第一次启动时候无法登陆谷歌账号（提示无法获得Google保护机制认证）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ～/waydroid_script</span><br><span class="line"><span class="comment"># get Android device ID</span></span><br><span class="line"><span class="built_in">sudo</span> venv/bin/python3 main.py certified</span><br><span class="line"><span class="comment"># 生成一串ID序号</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>注册Android device ID。进入 <a target="_blank" rel="noopener" href="https://www.google.com/android/uncertified">https://www.google.com/android/uncertified</a> ，登录Google账号输入获取到的ID进行注册。大约半小时后Waydroid可使用Google服务。</p>
-</li>
-<li><p>安装ARM转译器–libhoudini。由于市场上大多数APP为手机ARM架构定制，电脑为X86架构，必须安装ARM转译器才可以正常使用ARM架构的APP.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ～/waydroid_script</span><br><span class="line"><span class="built_in">sudo</span> venv/bin/python3 install libhoudini</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart waydroid-container</span><br></pre></td></tr></table></figure></li>
+    <p>主要问题点是：</p>
+<ol>
+<li>窗口宽度小到一点程度后，目录会消失</li>
+<li>窗口宽度小到一定程度后，目录下的元数据展示挤不下了，不会自动换行，而是溢出</li>
 </ol>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>全屏启动</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">waydroid show-full-ui</span><br></pre></td></tr></table></figure>
+<p>maple是使用tailwindcss写的css,因此样式非常好修改</p>
+<p>顺着layout文件夹下<code>layout.ejs</code>-&gt;<code>post.ejs</code>-&gt;<code>_partial/toc.ejs</code>寻找，发现<code>toc.ejs</code>决定着目录的样式，<code>post.ejs</code>里有目录下元数据展示的样式</p>
+<h2 id="窗口宽度小时，目录置于标题之上"><a href="#窗口宽度小时，目录置于标题之上" class="headerlink" title="窗口宽度小时，目录置于标题之上"></a>窗口宽度小时，目录置于标题之上</h2><p><code>toc.ejs</code>修改成</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">&quot;post-toc toc text-sm w-48 relative top-6 opacity-70 lg:top-32 lg:right-0 lg:fixed&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>原来的样式是<code>fixed hidden lg:block</code>，意味着超过lg之时才显示，这里修改过后，toc在窗口小宽度下为块标签</p>
+<p>并且将<code>post.ejs</code>里的toc部分移动到section之下，以保证与正文同宽，与正文对齐</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">&quot;px-6 max-w-prose mx-auto md:px-0&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- toc --&gt;</span></span><br><span class="line">  &lt;% if (toc(page.content).length !== 0) &#123; %&gt;</span><br><span class="line">    &lt;%- partial(&#x27;_partial/toc&#x27;) %&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br><span class="line">  <span class="comment">&lt;!-- header --&gt;</span></span><br><span class="line">   ...</span><br></pre></td></tr></table></figure>
 
-<p>尝试下载外部apk并使用命令安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">waydroid app install /path/to/apk</span><br></pre></td></tr></table></figure>
+<h2 id="元数据展示自动换行"><a href="#元数据展示自动换行" class="headerlink" title="元数据展示自动换行"></a>元数据展示自动换行</h2><p>首先去除<code>post.ejs</code>中的<code>header</code>标签的<code>overflow-hidden</code>类，这类让溢出部分隐藏了</p>
+<p>然后在元数据展示的<code>section</code>标签中添加<code>flex-wrap</code>类，如果宽度不够排，就换行</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- header --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">&quot;overflow-hidden pt-6 pb-6 md:pt-12&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;pt-4 md:pt-6&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">&quot;article-title&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]&quot;</span>&gt;</span></span><br><span class="line">      &lt;%- page.title %&gt;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">&quot;flex items-center gap-3 text-sm&quot;</span>&gt;</span></span><br><span class="line">          ...</span><br></pre></td></tr></table></figure>
 
-<p>开启多窗口模式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">waydroid prop <span class="built_in">set</span> persist.waydroid.multi_windows <span class="literal">true</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl restart waydroid-container</span><br></pre></td></tr></table></figure>
 
   </article>
   <!-- tag -->
@@ -300,11 +288,11 @@
     
       
         <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
-          <a href="/tags/linux/">linux</a>
+          <a href="/tags/hexo/">hexo</a>
         </span>
       
         <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
-          <a href="/tags/arch/">arch</a>
+          <a href="/tags/css/">css</a>
         </span>
       
     
@@ -313,16 +301,11 @@
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2024/08/31/%E8%AE%B0hexo%E4%B8%BB%E9%A2%98maple%E7%9A%84%E6%94%B9%E9%80%A0/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          记hexo主题maple的改造
-        </a>
-      
     </div>
     <div>
       
-        <a href="/2024/08/30/%E4%BA%91%E5%8D%97%E4%B9%8B%E6%97%85/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          云南之旅
+        <a href="/2024/08/30/Waydroid%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          Waydroid安装与使用
           <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
         </a>
       
