@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="Yoyoki">
+
+
+  <meta name="subtitle" content="欢迎来到我的小世界!">
+
+
+  <meta name="description" content="热爱技术，也热爱生活">
+
+
+  <meta name="keywords" content="技术 生活">
+
+
+<title>云南之旅 | 叶</title>
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+  };
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+    let isDark = document.documentElement.classList.contains("dark");
+  })();
+
+  $(document).ready(function () {
+    // init icon
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = document.documentElement.classList.contains("dark");
+    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+
+    function toggleGiscusTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const giscusFrame = document.querySelector("iframe.giscus-frame");
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage(
+          {
+            giscus: {
+              setConfig: {
+                theme: isDark ? "dark" : "light",
+              },
+            },
+          },
+          "https://giscus.app"
+        );
+      }
+    }
+
+
+    // toggle dark mode
+    function toggleDark() {
+      let isDark = document.documentElement.classList.contains("dark");
+      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+      isDark = !isDark;
+      document.documentElement.classList.toggle("dark", isDark);
+      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+      if (prefersDark === isDark) {
+        localStorage.setItem("hexo-color-scheme", "auto");
+      } else {
+        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
+      }
+      toggleGiscusTheme();
+    }
+    $("#toggle-dark").click(toggleDark);
+
+    // listen dark mode change
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+        if (setting === "auto") {
+          document.documentElement.classList.toggle("dark", e.matches);
+          $("#theme-icon").attr(
+            "icon",
+            e.matches ? "ri:moon-line" : "ri:sun-line"
+          );
+          toggleGiscusTheme();
+        }
+      });
+  });
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/images/logo.svg" alt="叶" />
+          叶
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        云南之旅
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">归档</a>
+        
+          <a class="hidden sm:flex" href="/categories">分类</a>
+        
+          <a class="hidden sm:flex" href="/tags">标签</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/yeuimu">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5 hidden sm:flex" title="Github" href="rss2.xml">
+          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
+        </a>
+        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
+          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">归档</a>
+        </li>
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/categories" class="flex h-12 sm:h-auto items-center">分类</a>
+        </li>
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/tags" class="flex h-12 sm:h-auto items-center">标签</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="pt-14">
+    <!-- css -->
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <div class="">
+    <!-- toc -->
+    
+      <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-6 lg:top-32 lg:right-0 lg:fixed opacity-70"></nav>
+    
+    <!-- lang switcher -->
+    
+  </div>
+  <!-- header -->
+  <header class="pt-6 pb-6">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        云南之旅
+      </h1>
+      <div>
+        <section class="flex items-center gap-4 text-sm flex-wrap">
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
+            <time>2024-08-30</time>
+          </span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
+            <span>3 min</span>
+          </span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
+            <span>934 words</span>
+          </span>
+          
+            <span class="flex items-center gap-1">
+              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
+              <a class="article-category-link" href="/categories/Diary/">Diary</a>
+            </span>
+          
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
+    <h2 id="第一天-到大理！"><a href="#第一天-到大理！" class="headerlink" title="第一天 到大理！"></a>第一天 到大理！</h2><pre class="mermaid">flowchart LR
+    广州南站 -- 高铁 4H ---> 大理站</pre>
+
+<p>下车站已经是七点多，但是天还是很亮💡</p>
+<p><img src="/images/Yunnan_trip_Dali_cloud.png" alt="PM7 Dali Cloud"></p>
+<p>去坐公交车的路上还看见一群大妈跳广场舞，歌用得都跟广州不一样</p>
+<p><video src="/videos/Yunnan_trip_Dali_square_dance.mp4" position= "absolute" height="30%" controls="controls"></video></p>
+<p>客栈离东门很近，公交下站两百米</p>
+<pre class="mermaid">flowchart LR
+    下关 -- 8路公交 1H ---> 大理东门</pre>
+
+<p><img src="/images/Yunnan_trip_find_inn.png" alt="Find the inn"></p>
+<p><img src="/images/Yunnan_trip_Dali_lobby_of_inn.png" alt="The lobby of the inn"></p>
+<p>找到客栈放行李后，在古城的<code>菌国府</code>中吃了一顿野生菌子火锅，之后回去美美睡一觉💤️</p>
+<p><img src="/images/Yunnan_trip_mushroom_hotpot.png" alt="Yunnan mushroom hotpot"></p>
+<h2 id="第二天-环洱海！"><a href="#第二天-环洱海！" class="headerlink" title="第二天 环洱海！"></a>第二天 环洱海！</h2><p>租电动车，绕“洱海”环游</p>
+<pre class="mermaid">flowchart TB
+    A[大理古城] --> 龙龛码头 --> 廊桥 --> 喜洲古镇 --> 周城 --> A</pre>
+
+<p>这些景区都是环绕洱海的，还有其他景区，像S弯，其实大同小异，去一个地方就好了✊</p>
+<p><img src="/images/Yunnan_trip_Erhai_landscape.png" alt="Erhai landscape"></p>
+<p><img src="/images/Yunnan_trip_Erhai_wife.png"></p>
+<p><img src="/images/Yunnan_trip_Erhai_me.png"></p>
+<p>最后在周城做了一次扎染，88￥包裙子和扎染👍</p>
+<p><img src="/images/Yunnan_trip_Zhoucheng_tie-dye.png" alt="Zhoucheng tie-dye"></p>
+<p>中午在喜洲古镇吃了一顿非常难吃的<code>私房菜</code>💢！不过晚上回去古城吃了一顿<code>傣族手抓饭</code>😁</p>
+<p><img src="/images/Yunnan_trip_Dai_Hand-grabbed_Rice.png" alt="Dai Hand-grabbed Rice"></p>
+<h2 id="第三天-到丽江！"><a href="#第三天-到丽江！" class="headerlink" title="第三天 到丽江！"></a>第三天 到丽江！</h2><pre class="mermaid">flowchart LR
+    大理古城苍山公交站 -- 滴滴站点巴士 3H ---> 丽江古城南门</pre>
+
+<p>客栈离古城南门很近，这次住的比较好😆</p>
+<p><img src="/images/Yunnan_trip_Lijiang_lobby_of_inn.png.png" alt="The lobby of the inn"></p>
+<p>晚上逛逛古城南门和忠义市场</p>
+<p>古城南门非常幽静，全是木质房屋，屋旁遍布鲜花和多肉</p>
+<p><img src="/images/Yunnan_trip_Old_Town_of_Lijiang_0.jpg"><br><img src="/images/Yunnan_trip_Old_Town_of_Lijiang_1.jpg"><br><img src="/images/Yunnan_trip_Old_Town_of_Lijiang_2.jpg"><br><img src="/images/Yunnan_trip_Old_Town_of_Lijiang_3.jpg"><br><img src="/images/Yunnan_trip_Old_Town_of_Lijiang_4.jpg"><br><img src="/images/Yunnan_trip_Old_Town_of_Lijiang_5.jpg"><br><img src="/images/Yunnan_trip_Old_Town_of_Lijiang_6.jpg" alt="Old Town of Lijiang"></p>
+<p>忠义市场比较热闹</p>
+<p>最后记得晚上8点准时抢玉龙雪山的大索道票🎟，不然明天去不了玉龙雪山山顶</p>
+<p><img src="/images/Yunnan_trip_Lijiang_grab_tickets.png" alt="Grab tickets"></p>
+<h2 id="第四天-上玉龙雪山！"><a href="#第四天-上玉龙雪山！" class="headerlink" title="第四天 上玉龙雪山！"></a>第四天 上玉龙雪山！</h2><pre class="mermaid">flowchart LR
+    忠义市场 -- 101公交 40M ---> 东巴谷 -- 拉客司机 10M ---> 玉龙雪山游客中心</pre>
+
+<p>看天气情况，如果多云⛅或者下雨🌧就没必要在东巴谷下车去看日照金山了，因为很难出现🥺</p>
+<p><img src="/images/Yunnan_trip_Lijiang_Sunlit_Golden_Mountain.png" alt="Sunlit Golden Mountain"></p>
+<p>这次就是因为云太多没有看见</p>
+<pre class="mermaid">flowchart LR
+    游客中心 --> 蓝月谷 --> 3号停车场 --> 冰川公园索道</pre>
+
+<p>玉龙雪山有四个景区：冰川公园、蓝月谷、云衫坪和牦牛坪，除了蓝月谷都要收费</p>
+<p>这次只去了冰川公园和蓝月谷，也玩了一整天…</p>
+<p><img src="/images/Yunnan_trip_Lijiang_Blue_Moon_Valley.png" alt="Blue Moon Valley"></p>
+<p><img src="/images/Yunnan_trip_Lijiang_Jade_Dragon_Snow_Mountain.png" alt="Jade Dragon Snow Mountain"></p>
+<h2 id="第五天-旅拍～"><a href="#第五天-旅拍～" class="headerlink" title="第五天 旅拍～"></a>第五天 旅拍～</h2><p>在丽江古城逗留了一天，一方面是因为昨天爬雪山有高反而且很累，稍作休息，另一方面可以留下一天时间去拍写真，晚上再总体逛逛古城</p>
+<p><img src="/images/Yunnan_trip_Lijiang_travel_shooting_0.png" alt="Travel Shooting"><br><img src="/images/Yunnan_trip_Lijiang_travel_shooting_1.png" alt="Travel Shooting"></p>
+<p>城北最热闹，然后从北往南会越来越少人，城内都是木房，路边有数不尽的鲜花和多肉，真是流连忘返～</p>
+<h2 id="第六天-到香格里拉！"><a href="#第六天-到香格里拉！" class="headerlink" title="第六天 到香格里拉！"></a>第六天 到香格里拉！</h2><pre class="mermaid">flowchart LR
+    忠义市场 -- 16路或4路公交 40M ---> 丽江站 -- 高铁 1H ---> 香格里拉站</pre>
+
+<p>这里做了一个错误决定，其实应该坐站点巴士，丽江的公交来的真慢！！😡又挤…</p>
+<p>下了香格里拉站就搞了一顿正宗的<code>耗牛肉火锅</code>🍲，还有一些当地人吃的青稞🫓和酥油🍵（甜的）</p>
+<p><video src="/videos/Yunnan_trip_Shangri-La_yak_meat_hotpot.mp4" position= "absolute" height="30%" controls="controls"></video></p>
+<h2 id="第七天-游纳帕海"><a href="#第七天-游纳帕海" class="headerlink" title="第七天 游纳帕海"></a>第七天 游纳帕海</h2><p>早上去搞一套藏族妆造，租一辆电动车</p>
+<p><img src="/images/Yunnan_trip_Shangri-La_travel_shooting.png"></p>
+<p>先导航“环湖路”，这里一路上可以看见大草原、湿地和湖水，层层递进</p>
+<p><img src="/images/Yunnan_trip_Shangri-La_Napahai.png" alt="Napahai"></p>
+<p>然后再导航“高山植物园”，这里可以全揽整个纳帕海全貌</p>
+<p><video src="/videos/Yunnan_trip_Shangri-La_Napahai_landscape.mp4" position= "absolute" height="30%" controls="controls"></video></p>
+<p>这次起床太晚，2点才出发，因此赶不及去松赞林寺了～只能安排明天</p>
+<p>晚上呢，去大佛寺转经筒（晚上最好看），最后订好明天去普达措的票🎟</p>
+<h2 id="第八天-游纳帕海和松赞林寺"><a href="#第八天-游纳帕海和松赞林寺" class="headerlink" title="第八天 游纳帕海和松赞林寺~"></a>第八天 游纳帕海和松赞林寺~</h2><p>普达措不用自己做攻略，路上的大巴车有导游讲解，会反复提及游玩路线和方式</p>
+<p><img src="/images/Yunnan_trip_Shangri-La_Pudacuo.png" alt="Pudacuo"></p>
+<p>下午抽空去松赞林寺🛕，比较小，很快就能逛完</p>
+<p><img src="/images/Yunnan_trip_Shangri-La_Songzanlin_Monastery.png" alt="Songzanlin Monastery"></p>
+<p>晚上购买回程🎟（香格里拉-&gt;广州南，联程票）</p>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2024/08/30/Waydroid%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          Waydroid安装与使用
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2024/08/21/%E4%BA%91%E5%8D%97-%E5%87%BA%E5%8F%91/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          云南,出发
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+<!-- js inspect -->
+
+<script src="/lib/clipboard.min.js"></script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(() => {
+    const maraidConfig = {
+      theme: "neutral",
+      logLevel: 3,
+      flowchart: { curve: "linear" },
+      gantt: { axisFormat: "%m/%d/%Y" },
+      sequence: { actorMargin: 50 },
+    };
+    mermaid.initialize(maraidConfig);
+  });
+</script>
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>访客量</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>浏览量</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>由</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+    <span>提供支持</span>
+  </div>
+
+</footer>
+
+  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
+    <span class="flex justify-center items-center text-sm">
+      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+      <span id="scrollpercent"><span>0</span> %</span>
+    </span>
+  </div>
+  
+<script src="/js/main.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      const mapleCount = "10";
+      const speed = "0.5";
+      const mapleEl = document.getElementById("maple");
+      const maples = Array.from({ length: mapleCount }).map(() => {
+        const maple = document.createElement("div");
+        const scale = Math.random() * 0.5 + 0.5;
+        const offset = Math.random() * 2 - 1;
+        const x = Math.random() * mapleEl.clientWidth;
+        const y = -Math.random() * mapleEl.clientHeight;
+        const duration = 10 / speed;
+        const delay = -duration;
+        maple.className = "maple";
+        maple.style.width = `${24 * scale}px`;
+        maple.style.height = `${24 * scale}px`;
+        maple.style.left = `${x}px`;
+        maple.style.top = `${y}px`;
+        maple.style.setProperty("--maple-fall-offset", offset);
+        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
+        maple.style.animation = `fall ${duration}s linear infinite`;
+        maple.style.animationDelay = `${delay}s`;
+        mapleEl.appendChild(maple)
+        return maple
+      })
+    });
+  </script>
+  
+
+
+  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
+</body>
+
+</html>

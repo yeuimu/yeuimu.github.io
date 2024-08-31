@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="Yoyoki">
+
+
+  <meta name="subtitle" content="欢迎来到我的小世界!">
+
+
+  <meta name="description" content="热爱技术，也热爱生活">
+
+
+  <meta name="keywords" content="技术 生活">
+
+
+<title>安装Archlinux全记录 | 叶</title>
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+  };
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+    let isDark = document.documentElement.classList.contains("dark");
+  })();
+
+  $(document).ready(function () {
+    // init icon
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = document.documentElement.classList.contains("dark");
+    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+
+    function toggleGiscusTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const giscusFrame = document.querySelector("iframe.giscus-frame");
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage(
+          {
+            giscus: {
+              setConfig: {
+                theme: isDark ? "dark" : "light",
+              },
+            },
+          },
+          "https://giscus.app"
+        );
+      }
+    }
+
+
+    // toggle dark mode
+    function toggleDark() {
+      let isDark = document.documentElement.classList.contains("dark");
+      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+      isDark = !isDark;
+      document.documentElement.classList.toggle("dark", isDark);
+      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+      if (prefersDark === isDark) {
+        localStorage.setItem("hexo-color-scheme", "auto");
+      } else {
+        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
+      }
+      toggleGiscusTheme();
+    }
+    $("#toggle-dark").click(toggleDark);
+
+    // listen dark mode change
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+        if (setting === "auto") {
+          document.documentElement.classList.toggle("dark", e.matches);
+          $("#theme-icon").attr(
+            "icon",
+            e.matches ? "ri:moon-line" : "ri:sun-line"
+          );
+          toggleGiscusTheme();
+        }
+      });
+  });
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/images/logo.svg" alt="叶" />
+          叶
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        安装Archlinux全记录
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">归档</a>
+        
+          <a class="hidden sm:flex" href="/categories">分类</a>
+        
+          <a class="hidden sm:flex" href="/tags">标签</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/yeuimu">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5 hidden sm:flex" title="Github" href="rss2.xml">
+          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
+        </a>
+        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
+          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">归档</a>
+        </li>
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/categories" class="flex h-12 sm:h-auto items-center">分类</a>
+        </li>
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/tags" class="flex h-12 sm:h-auto items-center">标签</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="pt-14">
+    <!-- css -->
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <div class="">
+    <!-- toc -->
+    
+      <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-6 lg:top-32 lg:right-0 lg:fixed opacity-70"></nav>
+    
+    <!-- lang switcher -->
+    
+  </div>
+  <!-- header -->
+  <header class="pt-6 pb-6">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        安装Archlinux全记录
+      </h1>
+      <div>
+        <section class="flex items-center gap-4 text-sm flex-wrap">
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
+            <time>2024-08-19</time>
+          </span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
+            <span>6 min</span>
+          </span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
+            <span>1.4k words</span>
+          </span>
+          
+            <span class="flex items-center gap-1">
+              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
+              <a class="article-category-link" href="/categories/Archlinux/">Archlinux</a>
+            </span>
+          
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
+    <h2 id="基础系统安装"><a href="#基础系统安装" class="headerlink" title="基础系统安装"></a>基础系统安装</h2><p>关闭蜂鸣器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmmod psspkr</span><br></pre></td></tr></table></figure>
+
+<p>连接wifi</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iwclt station wlan0 scan</span><br><span class="line">iwclt station wlan0 connect SSID</span><br></pre></td></tr></table></figure>
+
+<p>自动选镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reflector --verbose -c China --latest 12 --<span class="built_in">sort</span> rate --threads 100 --save /etc/pacman.d/mirrorlist</span><br><span class="line"></span><br><span class="line">pacman -Su</span><br></pre></td></tr></table></figure>
+
+<p>分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/nvme0n1 mklabel gpt</span><br><span class="line">parted /dev/nvme0n1 mkpart primary fat32 1MiB 1GiB</span><br><span class="line">parted /dev/nvme0n1 <span class="built_in">set</span> 1 esp on</span><br><span class="line">parted /dev/nvme0n1 mkpart primary linux-swap 1GiB 2GiB</span><br><span class="line">parted /dev/nvme0n1 mkpart primary btrfs 2GiB 100%</span><br></pre></td></tr></table></figure>
+
+<p>格式化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkfs.fat -F32 /dev/nvme0n1p1</span><br><span class="line">mkswap /dev/nvme0n1p2</span><br><span class="line">mkfs.btrfs -L <span class="built_in">arch</span> /dev/nvme0n1p3</span><br></pre></td></tr></table></figure>
+
+<p>挂载</p>
+<p>先创建btrfs的子卷</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mount -t btrfs -o compress=zstd /dev/nvme0n1p3 /mnt</span><br><span class="line">btrfs subvolume create /mnt/@</span><br><span class="line">btrfs subvolume create /mnt/@home</span><br><span class="line">umount /mnt</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>btrfs subvolume list -p /mnt</code>查看子卷信息</p>
+</blockquote>
+<p>然后挂载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mount -t btrfs -o subvol=/@,compress=zstd /dev/nvme0n1p3 /mnt <span class="comment"># 挂载 / 目录</span></span><br><span class="line"><span class="built_in">mkdir</span> /mnt/home <span class="comment"># 创建 /home 目录</span></span><br><span class="line">mount -t btrfs -o subvol=/@home,compress=zstd /dev/nvme0n1p3 /mnt/home <span class="comment"># 挂载 /home 目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /mnt/boot <span class="comment"># 创建 /boot 目录</span></span><br><span class="line">mount /dev/nvme0n1p1 /mnt/boot <span class="comment"># 挂载 /boot 目录</span></span><br><span class="line">swapon /dev/nvme0n1p2 <span class="comment"># 挂载交换分区</span></span><br></pre></td></tr></table></figure>
+
+<p>安装基础系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacstrap /mnt base base-devel linux linux-firmware btrfs-progs</span><br><span class="line"><span class="comment"># 如果使用btrfs文件系统，额外安装一个btrfs-progs包</span></span><br></pre></td></tr></table></figure>
+
+<p>安装基础软件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacstrap /mnt networkmanager <span class="built_in">sudo</span> bash bash-completion openssh</span><br></pre></td></tr></table></figure>
+
+<p>生成fstab文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">genfstab -U /mnt &gt; /mnt/etc/fstab</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>请检查fstab文件，<code>cat /mnt/etc/fstab</code></p>
+</blockquote>
+<p>切换根目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch-chroot /mnt</span><br></pre></td></tr></table></figure>
+
+<p>设置主机名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hostname=<span class="string">&quot;yarch&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$hostname</span> &gt; /etc/hostname</span><br><span class="line"><span class="built_in">cat</span> &gt;/etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">127.0.0.1 localhost</span></span><br><span class="line"><span class="string">::1 localhost</span></span><br><span class="line"><span class="string">127.0.0.2 $hostname</span></span><br><span class="line"><span class="string">::1 $hostname</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>设置时区并更新硬件时间</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure>
+
+<p>本地化处理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sed -i -e <span class="string">&#x27;/en_US.UTF-8 UTF-8/s/^# //&#x27;</span> -e <span class="string">&#x27;/zh_CN.UTF-8 UTF-8/s/^# //&#x27;</span> -e <span class="string">&#x27;/ja_JP.UTF-8 UTF-8/s/^# //&#x27;</span> /etc/locale.gen</span><br><span class="line">locale-gen</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;LANG=en_US.UTF-8&#x27;</span>  &gt; /etc/locale.conf</span><br></pre></td></tr></table></figure>
+
+<p>设置root密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd root</span><br></pre></td></tr></table></figure>
+
+<p>安装CPU微码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S amd-ucode <span class="comment"># AMD</span></span><br></pre></td></tr></table></figure>
+
+<p>安装引导程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -S grub efibootmgr os-prober</span><br><span class="line">grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch</span><br></pre></td></tr></table></figure>
+
+<p>配置grub</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br></pre></td></tr></table></figure>
+<p>进行如下修改：</p>
+<ul>
+<li>去掉 <code>GRUB_CMDLINE_LINUX_DEFAULT</code> 一行中最后的 <code>quiet</code> 参数</li>
+<li>把 <code>loglevel</code> 的数值从 <code>3</code> 改成 <code>5</code>。这样是为了后续如果出现系统错误，方便排错</li>
+<li>加入 <code>nowatchdog</code> 参数，这可以显著提高开关机速度</li>
+<li>为了引导 win10，则还需要添加新的一行 <code>GRUB_DISABLE_OS_PROBER=false</code></li>
+</ul>
+<p>生成grub配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+
+<p>彻底禁用蜂鸣器<br><code>echo &quot;blacklist pcspkr&quot; &gt; 到/etc/modprobe.d/50-yast.confecho &quot;blacklist pcspkr&quot; &gt; /etc/modprobe.d/50-yast.conf</code></p>
+<p>卸载重启</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span> <span class="comment"># 退回安装环境</span></span><br><span class="line">umount -R /mnt <span class="comment"># 卸载新分区</span></span><br><span class="line">reboot <span class="comment"># 重启</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="基本系统配置"><a href="#基本系统配置" class="headerlink" title="基本系统配置"></a>基本系统配置</h2><p>开启网络服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> --now NetworkManage</span><br></pre></td></tr></table></figure>
+
+<p>配置用户与sudo组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd -m -G wheel yoyoki</span><br><span class="line">passwd yoyoki</span><br><span class="line">EDITOR=vim visudo <span class="comment"># Cancle comment of `%wheel ALL=(ALL:ALL) ALL</span></span><br></pre></td></tr></table></figure>
+
+<p>使用reflector来选择最优镜像源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy rsync reflector</span><br><span class="line">reflector --verbose -c China --latest 12 --<span class="built_in">sort</span> rate --threads 100 --save /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure>
+
+<p>开启32位库，添加archlinuxcn源，下载yay</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/pacman.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">[archlinuxcn]</span></span><br><span class="line"><span class="string">Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch</span></span><br><span class="line"><span class="string">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch</span></span><br><span class="line"><span class="string">Server = https://mirrors.hit.edu.cn/archlinuxcn/$arch</span></span><br><span class="line"><span class="string">Server = https://repo.huaweicloud.com/archlinuxcn/$arch</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">pacman -Syyu</span><br></pre></td></tr></table></figure>
+
+<p>切换新用户继续配置archlinuxcn</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman-key --lsign-key <span class="string">&quot;farseerfc@archlinux.org&quot;</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S archlinuxcn-keyring <span class="comment"># cn 源中的签名（archlinuxcn-keyring 在 archlinuxcn）</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S yay <span class="comment"># yay 命令可以让用户安装 AUR 中的软件（yay 在 archlinuxcn）</span></span><br></pre></td></tr></table></figure>
+
+<p>开始愉快地享受arch！</p>
+<p><a target="_blank" rel="noopener" href="https://arch.icekylin.online/">参考</a></p>
+<h2 id="桌面环境"><a href="#桌面环境" class="headerlink" title="桌面环境"></a>桌面环境</h2><h3 id="Gnome-桌面"><a href="#Gnome-桌面" class="headerlink" title="Gnome 桌面"></a>Gnome 桌面</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S xorg xorg-server gnome-shell gdm</span><br><span class="line"><span class="comment"># gnome-shell -&gt; core</span></span><br><span class="line"><span class="comment"># gnome -&gt; gnome core with applications</span></span><br><span class="line"><span class="comment"># gnome-extra -&gt; gnome with other applications such as games...</span></span><br></pre></td></tr></table></figure>
+
+<p>gnome 微调设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S gnome-tweaks</span><br></pre></td></tr></table></figure>
+
+<p>[[Font config for Linux#^d10d6e|字体]]</p>
+<p>开启登陆器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start gdm</span><br></pre></td></tr></table></figure>
+
+<p>开启蓝牙服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl emable --now bluetooth.service</span><br></pre></td></tr></table></figure>
+
+<p>安装并开启<strong>性能模式切换</strong>功能</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S power-profiles-deamon -y</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now power-profiles-deamon.service</span><br></pre></td></tr></table></figure>
+<h3 id="声音-可能需要？"><a href="#声音-可能需要？" class="headerlink" title="声音(可能需要？)"></a>声音(可能需要？)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S alsa-utils pulseaudio pulseaudio-bluetooth</span><br></pre></td></tr></table></figure>
+
+<h3 id="输入法"><a href="#输入法" class="headerlink" title="输入法"></a>输入法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-im fcitx5-chinese-addons fcitx5-anthy</span><br></pre></td></tr></table></figure>
+
+<p>然后安装[[Gnome Extensions for Arch#^c931c6|Input Method Panel]]，安装gnome扩展需要一些[[Gnome Extensions for Arch#^80142c|设置]]</p>
+<p>最后配置一下环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt;/etc/environment &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">GTK_IM_MODULE=fcitx</span></span><br><span class="line"><span class="string">QT_IM_MODULE=fcitx</span></span><br><span class="line"><span class="string">XMODIFIERS=@im=fcitx</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>重新启动即可所有应用使用fctix输入法</p>
+<h2 id="其他应用"><a href="#其他应用" class="headerlink" title="其他应用"></a>其他应用</h2><h3 id="Flatpak"><a href="#Flatpak" class="headerlink" title="Flatpak"></a>Flatpak</h3><p>Flatpak 提供一个沙盒运行时，使得应用可以运行在任何一个发行版上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S flatpak</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><p>Docker 轻量虚拟机</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br><span class="line">systemctl <span class="built_in">enable</span> --now docker.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="Timeshift"><a href="#Timeshift" class="headerlink" title="Timeshift"></a>Timeshift</h3><p>Timeshift 系统快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S timeshift</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now cronie.service</span><br></pre></td></tr></table></figure>
+
+<p>每次生成快照时生成grub条目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S grub-btrfs</span><br></pre></td></tr></table></figure>
+
+<p>要使 grub-btrfsd 与 Timeshift 一起工作，请运行以下命令编辑服:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl edit --full grub-btrfsd</span><br></pre></td></tr></table></figure>
+<p>并将 <code>grub-btrfsd --syslog /.snapshots</code> 替换为 <code>grub-btrfsd --syslog -t</code></p>
+<p>每次进行系统更新（<code>pacman -Syyu</code>）前，请先使用 Timeshift 进行一次快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timeshift --create --comments <span class="string">&quot;Snapshot before update&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用命令行的timeshift进行快照恢复</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> timeshift --list</span><br><span class="line"><span class="built_in">sudo</span> timeshift --restore --snapshot <span class="string">&#x27;2019-07-16_16-35-42&#x27;</span> --skip-grub</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>–skip-grub</code> 选项为跳过 grub 安装,一般来说 grub 不需要重新安装,除非 bios 启动无法找到正确的 grub 启动项,才需要安装</p>
+</blockquote>
+<h3 id="Lutris-Steam"><a href="#Lutris-Steam" class="headerlink" title="Lutris &amp; Steam"></a>Lutris &amp; Steam</h3><p>玩游戏，Lutris多平台，Steam主流游戏平台</p>
+<p>安装 lutris 和 proton 包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S lutris steam</span><br></pre></td></tr></table></figure>
+
+<p>会提供几个可选的包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">:: 有 7 个软件包可提供 vulkan-driver ：</span><br><span class="line">:: 软件仓库 extra</span><br><span class="line">   1) amdvlk  2) nvidia-utils  3) vulkan-intel</span><br><span class="line">   4) vulkan-nouveau  5) vulkan-radeon  6) vulkan-swrast</span><br><span class="line">   7) vulkan-virtio</span><br><span class="line"></span><br><span class="line">:: 有 7 个软件包可提供 lib32-vulkan-driver ：</span><br><span class="line">:: 软件仓库 multilib</span><br><span class="line">   1) lib32-amdvlk  2) lib32-nvidia-utils</span><br><span class="line">   3) lib32-vulkan-intel  4) lib32-vulkan-nouveau</span><br><span class="line">   5) lib32-vulkan-radeon  6) lib32-vulkan-swrast</span><br><span class="line">   7) lib32-vulkan-virtio</span><br></pre></td></tr></table></figure>
+<ul>
+<li>amd集显选择<code>vulkan-radeon</code>（开源的，推荐使用）或<code>amdvlk</code>（官方的，不推荐使用）</li>
+<li>intel集显选择<code>vulkan-intel</code></li>
+<li>n卡按理说应该选择<code>nvidia-utils</code>（官方的，推荐使用）或<code>vulkan-nouveau</code></li>
+<li>虚拟机选择<code>vulkan-virtio</code></li>
+<li>使用纯cpu跑选择<code>vulkan-swrast</code></li>
+</ul>
+<p>安装Wine以运行exe软件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S wine wine-mono</span><br></pre></td></tr></table></figure>
+
+<p>Lutris -&gt; 管理 Wine 版本 -&gt; wine-ge-8-26</p>
+<h3 id="Softwares-for-Arch-更多应用"><a href="#Softwares-for-Arch-更多应用" class="headerlink" title="[[Softwares for Arch|更多应用]]"></a>[[Softwares for Arch|更多应用]]</h3>
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/linux/">linux</a>
+        </span>
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/arch/">arch</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2024/08/19/%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2-%E5%B9%B6%E9%83%A8%E7%BD%B2github-page/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          搭建hexo博客,并部署github page
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2024/08/19/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%97%A5%E8%AE%B0/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          我的第一篇博客日记
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+<!-- js inspect -->
+
+<script src="/lib/clipboard.min.js"></script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(() => {
+    const maraidConfig = {
+      theme: "neutral",
+      logLevel: 3,
+      flowchart: { curve: "linear" },
+      gantt: { axisFormat: "%m/%d/%Y" },
+      sequence: { actorMargin: 50 },
+    };
+    mermaid.initialize(maraidConfig);
+  });
+</script>
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>访客量</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>浏览量</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>由</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+    <span>提供支持</span>
+  </div>
+
+</footer>
+
+  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
+    <span class="flex justify-center items-center text-sm">
+      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+      <span id="scrollpercent"><span>0</span> %</span>
+    </span>
+  </div>
+  
+<script src="/js/main.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      const mapleCount = "10";
+      const speed = "0.5";
+      const mapleEl = document.getElementById("maple");
+      const maples = Array.from({ length: mapleCount }).map(() => {
+        const maple = document.createElement("div");
+        const scale = Math.random() * 0.5 + 0.5;
+        const offset = Math.random() * 2 - 1;
+        const x = Math.random() * mapleEl.clientWidth;
+        const y = -Math.random() * mapleEl.clientHeight;
+        const duration = 10 / speed;
+        const delay = -duration;
+        maple.className = "maple";
+        maple.style.width = `${24 * scale}px`;
+        maple.style.height = `${24 * scale}px`;
+        maple.style.left = `${x}px`;
+        maple.style.top = `${y}px`;
+        maple.style.setProperty("--maple-fall-offset", offset);
+        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
+        maple.style.animation = `fall ${duration}s linear infinite`;
+        maple.style.animationDelay = `${delay}s`;
+        mapleEl.appendChild(maple)
+        return maple
+      })
+    });
+  </script>
+  
+
+
+  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
+</body>
+
+</html>
