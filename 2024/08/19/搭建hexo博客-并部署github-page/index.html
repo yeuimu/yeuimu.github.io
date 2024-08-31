@@ -229,7 +229,6 @@
   <!-- toc -->
   
     <!-- tocbot -->
-<!-- <nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav> -->
 <nav class="post-toc toc text-sm w-48 relative top-6 lg:top-32 lg:right-0 lg:fixed opacity-70"></nav>
   
   <!-- header -->
@@ -242,7 +241,7 @@
         <section class="flex items-center gap-4 text-sm flex-wrap">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-08-20</time>
+            <time>2024-08-31</time>
           </span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
@@ -250,7 +249,7 @@
           </span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>519 words</span>
+            <span>530 words</span>
           </span>
           
         </section>
@@ -282,6 +281,9 @@
 </li>
 <li><p>在<code>_config.yml</code>中添加如下配置</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://&#123;你的令牌&#125;@github.com/&#123;用户名&#125;/&#123;用户名&#125;.github.io</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装<code>hexo-deployer-git</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>部署命令</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo d -g</span><br></pre></td></tr></table></figure></li>
